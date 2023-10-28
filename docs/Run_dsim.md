@@ -1,4 +1,4 @@
-Template: [Run_dsim.m](src/Run_dsim.m)
+Template: [Run_dsim.m](../src/Run_dsim.m)
 
 This is the main script controlling execution of the model, most of the work will be done within this script. Here I will show how to build this file for a simulation run.
 
@@ -137,7 +137,7 @@ We initialize an 'empty' simParam structure
 ```
 
 The following section will be the most varied.
-All synapses, inputs, and changing any values of constants in [[simParams]] need to be set
+All synapses, inputs, and changing any values of constants in [simParams](simParams.md) need to be set.
 
 ## Inputs
 
@@ -212,7 +212,7 @@ end
 
 # Solve ODEs
 
-We call our ode solver with an '@' function handle broadcast over variables (t,s) passed to our [dsim](docs/dsim.md) function, dsim also takes [simParams](docs/simParams.md) input to extract all parameters for the run. t =timepoints of the solution, s = solutions to all differential equations at each value of t
+We call our ode solver with an '@' function handle broadcast over variables (t,s) passed to our [dsim](dsim.md) function, dsim also takes [simParams](simParams.md) input to extract all parameters for the run. t =timepoints of the solution, s = solutions to all differential equations at each value of t
 
 ode function also needs:
 - timespan 
@@ -242,7 +242,7 @@ In most cases we only save voltage data, we will also skip some data points to s
     tmpStruct.data = tmpS_struct;
 ```
 
-We will also extract spike times for later analysis using the [extractData.m](src/extractData.m) file.
+We will also extract spike times for later analysis using the [extractData.m](../src/extractData.m) file.
 
 ```matlab
 % Analysis

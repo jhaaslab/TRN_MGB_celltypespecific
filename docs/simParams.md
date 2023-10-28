@@ -1,4 +1,4 @@
-[simParams.m](src/simParams.m)
+[simParams.m](../src/simParams.m)
 
 This class controls the variables that will be set for every simulation run.
 

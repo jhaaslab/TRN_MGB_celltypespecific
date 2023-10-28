@@ -28,7 +28,7 @@ run extractData to extract spike times and firing rate from vm data for analysis
 
 # Simulations used in Paper
 
-The simulations directory contains code files for all simulations that went into the final paper. Raw vm data results were ommitted for space and exist on lab storage.
+The simulations directory contains code files for all simulations that went into the final paper. Raw vm data results were omitted for space and exist on lab storage.
 
 ---
 

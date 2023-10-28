@@ -1,4 +1,4 @@
-[dsim.m](src/dsim.m)
+[dsim.m](../src/dsim.m)
 
 This function contains the equations for calculating the Hodgkin-Huxley system and will be passed to the ODE solver to run our simulations.
 
@@ -49,7 +49,7 @@ end
 
 # Ion Channels
 
-Changes in channel gating (m, h) for all active channels are calculated from the [channel functions](#Channel%20functions).
+Changes in channel gating (m, h) for all active channels are calculated from the [channel functions](#Channel-functions).
 
 We then calculate Channel currents at the current timestep.
 
@@ -176,7 +176,7 @@ end
 
 Finally, we calculate change in voltage from the sum of the currents.
 
-Changes in channel actiavtions calculated [above](#Ion%20Channels) need to also be set to the ds.
+Changes in channel actiavtions calculated [above](#Ion-Channels) need to also be set to the ds.
 
 Changes in synaptic conductance are omitted here as we assigned them depending on cell identity [(above)](#Synapses)
 
