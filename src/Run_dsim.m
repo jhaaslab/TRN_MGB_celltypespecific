@@ -14,7 +14,7 @@ startTime  = 0;
 endTime    = 1000;
 tspan = [startTime endTime];
 tmax = abs(endTime - startTime);
-options=odeset('InitialStep',10^(-3),'MaxStep',10^(-2));
+options=odeset('InitialStep',10^(-2),'MaxStep',10^(-1));
 skip_time = 1/10; % ms
 
 nameOfSavedVar     = 'Sim_results'; 

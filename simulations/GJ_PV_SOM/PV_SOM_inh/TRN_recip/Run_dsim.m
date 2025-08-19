@@ -1,5 +1,5 @@
 % Connecting parallel pool 
-parpool("Threads"); 
+parpool('Threads');
 
 if not(isfolder('init_data'))
 %
@@ -8,14 +8,15 @@ sc = parallel.pool.Constant(RandStream('Threefry','seed','shuffle'));
 seed = sc.Value.Seed;
 %}
 %Sim variables
-var_rep = 1:350;
+var_rep = 1:150;
+var_pv_prob = 0:0.2:1;
+var_som_prob = 0:0.2:1;
 var_cell_inh = 0:2;
-var_conn = 1:5;
 
-
-all_vars    = { var_rep,     'replication';
-                var_cell_inh,'cell_inh';
-                var_conn,    'connection'};
+all_vars    = { var_rep,      'replication';
+                var_pv_prob,  'pv_inh_prob';
+                var_som_prob, 'som_inh_prob';
+                var_cell_inh, 'cell_inh'};
             
 var_vectors = all_vars(:, 1)';
 var_names   = all_vars(:, 2)';
@@ -80,34 +81,23 @@ parfor i = 1:numel(block2run)
     selected = num2cell(var_combos_2run(i,:),1);
     
     % Get out the 'location' of which values to pick from 'selected'
-    [rep, cell_inh, conn] = selected{:};
+    [rep,pv_prob,som_prob,cell_inh] = selected{:};
     
     sim = simParams(namesOfNeurons,per_neuron,s0); % initialize simParams object
     % change simParams vars to selected vars
     % Synapses
     sim.A_TC_MGB = 1;
     sim.A_TC_HO = 1;
-
-    switch conn
-        case 1 %recip only
-        sim.AI_TRN_PV = 3;
-        sim.AI_TRN_SOM = 3;
-        case 2
-        sim.AI_TRN_PV = 3;
-        sim.AI_TRN_SOM = 3;
-        sim.gj(1,2) = 0.03;
-        sim.gj(2,1) = 0.03;
-        case 3
-        sim.AI_TRNi_SOM= 3;
-        sim.AI_TRN_PV = 3;
-        sim.AI_TRN_SOM = 3;
-        case 4
-        sim.AI_TRNx_PV = 3;
-        sim.AI_TRNx_SOM = 3;
-        case 5
-        sim.AI_TRNi_SOM= 3;
-        sim.AI_TRNx_PV = 3;
-        sim.AI_TRNx_SOM = 3;
+    sim.AI_TRN_PV = 3;
+    sim.AI_TRN_SOM = 3;
+    sim.gj(1,2) = 0.03;
+    sim.gj(2,1) = 0.03;
+    
+    if rand<pv_prob
+    sim.AI_TRNi_PV = 3;
+    end
+    if rand<som_prob
+    sim.AI_TRNi_SOM = 3;
     end
 
     % Inputs
@@ -121,12 +111,12 @@ parfor i = 1:numel(block2run)
         sim.tA{ii} = poissonP(80,endTime/1000);
         sim.AI(ii) = 0.2;
         sim.tAI{ii} = poissonP(20,endTime/1000);
+
         else %TC
-        %{
         %tone -> TCs
         sim.iDC(ii) = 2.7;
         sim.istart{ii}= 500;
-        %}
+        
         sim.A(ii) = 0.4;
         sim.tA{ii} = poissonP(80,endTime/1000);
         sim.AI(ii) = 0.4;
@@ -134,7 +124,6 @@ parfor i = 1:numel(block2run)
         end
     end
 
-    
     %silencing -| TRNs
     switch cell_inh
         case 0 %no silencing

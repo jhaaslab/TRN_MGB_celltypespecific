@@ -22,7 +22,7 @@ MGB_base0 = 0.0092;
 MGB_evoked0 = 0.1069;
 
 n_trials = 350;
-for x=1:72
+for x=1:15
 MGBspks={};
 HOspks={};
 PVspks={};
